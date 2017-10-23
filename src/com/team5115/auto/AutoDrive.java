@@ -10,11 +10,6 @@ public class AutoDrive extends StateMachineBase {
     public static final int DRIVING = 1;
     public static final int FINISHED = 2;
 
-    // deltas
-    double dist;
-    double angle;
-
-    // absolute readings when finished
     double targetDist;
     double targetAngle;
 
@@ -22,8 +17,8 @@ public class AutoDrive extends StateMachineBase {
     PID turnController;
 
     public void startLine(double dist, double maxSpeed) {
-        this.dist = dist;
-        this.angle = 0;
+        targetDist = Robot.drivetrain.getDist() + dist;
+        targetAngle = Robot.drivetrain.getYaw();
 
         forwardController = new PID(Constants.AUTO_FORWARD_KP, Constants.AUTO_FORWARD_KI, Constants.AUTO_FORWARD_KD, maxSpeed);
         turnController = new PID(Constants.AUTO_TURN_KP, Constants.AUTO_TURN_KI, Constants.AUTO_TURN_KD);
@@ -32,8 +27,8 @@ public class AutoDrive extends StateMachineBase {
     }
 
     public void startTurn(double angle, double maxSpeed) {
-        this.dist = 0;
-        this.angle = angle;
+        targetDist = Robot.drivetrain.getDist();
+        targetAngle = Robot.drivetrain.getYaw() + angle;
 
         forwardController = new PID(Constants.AUTO_FORWARD_KP, Constants.AUTO_FORWARD_KI, Constants.AUTO_FORWARD_KD);
         turnController = new PID(Constants.AUTO_TURN_KP, Constants.AUTO_TURN_KI, Constants.AUTO_TURN_KD, maxSpeed);
