@@ -55,22 +55,26 @@ public class DriveTrain {
 
     public double getDist() {
         // TODO: average of left and right encoder distances
-        return 0;
+        double quadEncoderPosL = frontleft.getEncPosition();
+        double quadEncoderPosR = frontright.getEncPosition();
+        return quadEncoderPosL + quadEncoderPosR / 2;
     }
 
     public double getForwardVelocity() {
         // TODO: average of encoder velocities from talons
-        return 0;
+        double quadEncoderVelocityL = frontleft.getEncVelocity();
+        double quadEncoderVelocityR = frontright.getEncVelocity();
+        return quadEncoderVelocityL + quadEncoderVelocityR / 2;
     }
 
     public double getYaw() {
         // TODO: yaw from gyro
-        return 0;
+        return navx.getYaw();
     }
 
     public double getTurnVelocity() {
         // TODO: yaw velocity from gyro
-        return 0;
+        return navx.getRate();
     }
 
     // This method resets the values given by the encoders to a default of 0
